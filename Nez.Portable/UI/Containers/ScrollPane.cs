@@ -48,8 +48,11 @@ namespace Nez.UI
 		bool _scrollbarsOnTop;
 		bool _variableSizeKnobs = true;
 
-		// input data
-		Vector2 _lastMousePos;
+        //Scroll to bottom of pane on call to layout
+        public bool AutoScrollY { get; set; } = false;
+
+        // input data
+        Vector2 _lastMousePos;
 		float _lastHandlePosition;
 
 
@@ -281,11 +284,18 @@ namespace Nez.UI
 				}
 			}
 
-			SetScrollX(Mathf.Clamp(_amountX, 0, _maxX));
-			SetScrollY(Mathf.Clamp(_amountY, 0, _maxY));
+            if (AutoScrollY)
+            {
+                SetScrollY(_maxY);
+            }
+            else
+            {
+                SetScrollX(Mathf.Clamp(_amountX, 0, _maxX));
+                SetScrollY(Mathf.Clamp(_amountY, 0, _maxY));
+            }
 
-			// Set the bounds and scroll knob sizes if scrollbars are needed.
-			if (_scrollX)
+            // Set the bounds and scroll knob sizes if scrollbars are needed.
+            if (_scrollX)
 			{
 				if (hScrollKnob != null)
 				{
