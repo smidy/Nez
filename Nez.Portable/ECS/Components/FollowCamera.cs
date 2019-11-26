@@ -197,10 +197,16 @@ namespace Nez
 				case CameraStyle.CameraWindow:
 					var w = (cameraBounds.Width / 6);
 					var h = (cameraBounds.Height / 3);
-					Deadzone = new RectangleF((cameraBounds.Width - w) / 2, (cameraBounds.Height - h) / 2, w, h);
+                    if (Deadzone == null)
+                    {
+                        Deadzone = new RectangleF((cameraBounds.Width - w) / 2, (cameraBounds.Height - h) / 2, w, h);
+                    }
 					break;
 				case CameraStyle.LockOn:
-					Deadzone = new RectangleF(cameraBounds.Width / 2, cameraBounds.Height / 2, 10, 10);
+                    if (Deadzone == null)
+                    {
+                        Deadzone = new RectangleF(cameraBounds.Width / 2, cameraBounds.Height / 2, 10, 10);
+                    }
 					break;
 			}
 		}
