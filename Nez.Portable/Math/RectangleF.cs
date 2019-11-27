@@ -365,13 +365,18 @@ namespace Nez
 			Height += verticalAmount * 2;
 		}
 
+        public RectangleF InflateAndClone(float horizontalAmount, float verticalAmount)
+        {
+            return new RectangleF(X - horizontalAmount, Y - verticalAmount, Width + horizontalAmount * 2, Height + verticalAmount * 2);
+        }
 
-		/// <summary>
-		/// Gets whether or not the other <see cref="RectangleF"/> intersects with this rectangle.
-		/// </summary>
-		/// <param name="value">The other rectangle for testing.</param>
-		/// <returns><c>true</c> if other <see cref="RectangleF"/> intersects with this rectangle; <c>false</c> otherwise.</returns>
-		public bool Intersects(RectangleF value)
+
+        /// <summary>
+        /// Gets whether or not the other <see cref="RectangleF"/> intersects with this rectangle.
+        /// </summary>
+        /// <param name="value">The other rectangle for testing.</param>
+        /// <returns><c>true</c> if other <see cref="RectangleF"/> intersects with this rectangle; <c>false</c> otherwise.</returns>
+        public bool Intersects(RectangleF value)
 		{
 			return value.Left < Right &&
 			       Left < value.Right &&
