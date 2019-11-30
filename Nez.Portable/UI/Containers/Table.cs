@@ -1077,7 +1077,7 @@ namespace Nez.UI
 			float totalExpandWidth = 0, totalExpandHeight = 0;
 			for (var i = 0; i < columns; i++)
 				totalExpandWidth += expandWidth[i];
-			for (var i = 0; i < rows; i++)
+			for (var i = 0; i < rows && rows <= expandHeight.Length; i++)
 				totalExpandHeight += expandHeight[i];
 
 			// Size columns and rows between min and pref size using (preferred - min) size to weight distribution of extra space.
@@ -1227,7 +1227,7 @@ namespace Nez.UI
 			float tableWidth = hpadding, tableHeight = vpadding;
 			for (var i = 0; i < columns; i++)
 				tableWidth += columnWidth[i];
-			for (var i = 0; i < rows; i++)
+			for (var i = 0; i < rows && i <= rowHeight.Length; i++)
 				tableHeight += rowHeight[i];
 
 			// Position table within the container.
