@@ -15,14 +15,28 @@ namespace Nez.Tiled
 
 		public static TmxMap LoadTmxMap(this TmxMap map, string filepath)
 		{
-			using (var stream = TitleContainer.OpenStream(filepath))
-			{
-				var xDoc = XDocument.Load(stream);
-				map.TmxDirectory = Path.GetDirectoryName(filepath);
-				map.LoadTmxMap(xDoc);
+            if (Path.IsPathRooted(filepath))
+            {
+                using (var stream = File.OpenRead(filepath))
+                {
+                    var xDoc = XDocument.Load(stream);
+                    map.TmxDirectory = Path.GetDirectoryName(filepath);
+                    map.LoadTmxMap(xDoc);
 
-				return map;
-			}
+                    return map;
+                }
+            }
+            else
+            {
+                using (var stream = TitleContainer.OpenStream(filepath))
+                {
+                    var xDoc = XDocument.Load(stream);
+                    map.TmxDirectory = Path.GetDirectoryName(filepath);
+                    map.LoadTmxMap(xDoc);
+
+                    return map;
+                }
+            }
 		}
 
 		public static TmxMap LoadTmxMap(this TmxMap map, XDocument xDoc)
@@ -140,17 +154,30 @@ namespace Nez.Tiled
 			{
 				// Prepend the parent TMX directory
 				source = Path.Combine(tmxDir, source);
+                if (Path.IsPathRooted(source))
+                {
+                    using (var stream = File.OpenRead(source))
+                    {
+                        var xDocTileset = XDocument.Load(stream);
 
-				// Everything else is in the TSX file
-				using (var stream = TitleContainer.OpenStream(source))
-				{
-					var xDocTileset = XDocument.Load(stream);
+                        var tileset = new TmxTileset().LoadTmxTileset(map, xDocTileset.Element("tileset"), firstGid, tmxDir);
+                        tileset.TmxDirectory = Path.GetDirectoryName(source);
 
-					var tileset = new TmxTileset().LoadTmxTileset(map, xDocTileset.Element("tileset"), firstGid, tmxDir);
-					tileset.TmxDirectory = Path.GetDirectoryName(source);
+                        return tileset;
+                    }
+                }
+                else
+                {
+                    using (var stream = TitleContainer.OpenStream(source))
+                    {
+                        var xDocTileset = XDocument.Load(stream);
 
-					return tileset;
-				}
+                        var tileset = new TmxTileset().LoadTmxTileset(map, xDocTileset.Element("tileset"), firstGid, tmxDir);
+                        tileset.TmxDirectory = Path.GetDirectoryName(source);
+
+                        return tileset;
+                    }
+                }
 			}
 
 			return new TmxTileset().LoadTmxTileset(map, xTileset, firstGid, tmxDir);
@@ -649,9 +676,20 @@ namespace Nez.Tiled
 			{
 				// Append directory if present
 				image.Source = Path.Combine(tmxDir, (string)xSource);
-
-				using (var stream = TitleContainer.OpenStream(image.Source))
-					image.Texture = Texture2D.FromStream(Core.GraphicsDevice, stream);
+                if (Path.IsPathRooted(image.Source))
+                {
+                    using (var stream = File.OpenRead(image.Source))
+                    {
+                        image.Texture = Texture2D.FromStream(Core.GraphicsDevice, stream);
+                    }
+                }
+                else
+                {
+                    using (var stream = TitleContainer.OpenStream(image.Source))
+                    {
+                        image.Texture = Texture2D.FromStream(Core.GraphicsDevice, stream);
+                    }
+                }
 			}
 			else
 			{
