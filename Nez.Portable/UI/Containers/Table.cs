@@ -1075,9 +1075,9 @@ namespace Nez.UI
 			float[] columnWidth = _columnWidth, rowHeight = _rowHeight;
 
 			float totalExpandWidth = 0, totalExpandHeight = 0;
-			for (var i = 0; i < columns; i++)
+			for (var i = 0; i < columns && i < expandWidth.Length; i++)
 				totalExpandWidth += expandWidth[i];
-			for (var i = 0; i < rows; i++)
+			for (var i = 0; i < rows && i < expandHeight.Length; i++)
 				totalExpandHeight += expandHeight[i];
 
 			// Size columns and rows between min and pref size using (preferred - min) size to weight distribution of extra space.
