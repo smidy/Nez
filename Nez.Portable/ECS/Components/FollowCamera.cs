@@ -168,7 +168,7 @@ namespace Nez
 						return;
 				}
 
-				var targetBounds = _targetEntity.GetComponent<Collider>().Bounds;
+				var targetBounds = _targetCollider.Bounds;
 				if (!_worldSpaceDeadzone.Contains(targetBounds))
 				{
 					// x-axis
