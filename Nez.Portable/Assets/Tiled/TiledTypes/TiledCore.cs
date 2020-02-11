@@ -18,7 +18,7 @@ namespace Nez.Tiled
 
 		protected XDocument ReadXml(string filepath)
 		{
-			using (var stream = TitleContainer.OpenStream(filepath))
+			using (var stream = File.OpenRead(filepath))
 			{
 				var xDoc = XDocument.Load(stream);
 				TmxDirectory = Path.GetDirectoryName(filepath);
@@ -119,7 +119,7 @@ namespace Nez.Tiled
 				// Append directory if present
 				Source = Path.Combine(tmxDir, (string)xSource);
 
-				using (var stream = TitleContainer.OpenStream(Source))
+				using (var stream = File.OpenRead(Source))
 					Texture = Texture2D.FromStream(Core.GraphicsDevice, stream);
 			}
 			else

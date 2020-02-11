@@ -23,7 +23,7 @@ namespace Nez.BitmapFonts
 		/// </returns>
 		public static BitmapFont LoadFontFromFile(string filename)
 		{
-			using (var file = TitleContainer.OpenStream(filename))
+			using (var file = File.OpenRead(filename))
 			{
 				using (var reader = new StreamReader(file))
 				{

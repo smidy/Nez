@@ -43,7 +43,7 @@ namespace Nez.Tiled
 				source = Path.Combine(tmxDir, source);
 
 				// Everything else is in the TSX file
-				using (var stream = TitleContainer.OpenStream(source))
+				using (var stream = File.OpenRead(source))
 				{
 					var xDocTileset = XDocument.Load(stream);
 
